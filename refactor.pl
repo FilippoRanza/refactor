@@ -1,7 +1,7 @@
 #! /usr/bin/perl -ni
 
 # refactor.pl - Removes all comments and private methods from a Java source
-# Copyright (C) 1994, 1999-2012 Free Software Foundation, Inc.
+# Copyright (C) 2017 Filippo Ranza
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,11 +27,29 @@
 #è fondamentale,per una corretta esecuzione rendere il file esegibile
 #e non lanciarlo tramite perl refactor.pl (non verrebbero usate le corrette opzioni)
 
+BEGIN{
+	if ($#ARGV  == -1 ){
+
+		print "USAGE:\n";
+		print " ./refactor.pl java_source...\n";
+		print " perl -ni refactor.pl java_souce...\n";
+		print " Remove all comments,javadoc and private methods\n";
+		print " from given source file.\n";
+		print " \n";
+		print " This tool DOES NOT produce any BACKUP.\n";
+		print " \n";
+		print " Use with care.\n";
+		print "Made with <3 by Filippo Ranza\n";
+
+
+		exit
+	}
+}
 
 if( /^\s*private .+\(.*\)/ ){
 	$state = 1;
 }
-elsif( /\}/ and $state == 1 ) {
+elsif( /\}/ and $state == 1 ){
 	$state = 2;
 }
 
